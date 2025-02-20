@@ -20,7 +20,7 @@ export const Header = () => {
               Home
             </Link>
             <Link to="/ebooks" className="text-foreground hover:text-accent transition-colors">
-              eBooks
+              Explore
             </Link>
           </nav>
 
@@ -53,7 +53,7 @@ export const Header = () => {
                 className="text-foreground hover:text-accent transition-colors px-2"
                 onClick={() => setIsMobileMenuOpen(false)}
               >
-                eBooks
+                Explore
               </Link>
             </nav>
           </div>
