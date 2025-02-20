@@ -1,10 +1,7 @@
-
 import { Link } from "react-router-dom";
 import { BookOpen, Mail, MapPin, Phone } from "lucide-react";
-
 export const Footer = () => {
-  return (
-    <footer className="bg-white border-t border-border mt-auto">
+  return <footer className="bg-white border-t border-border mt-auto">
       <div className="container max-w-6xl mx-auto px-4 py-8">
         <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
           {/* Brand */}
@@ -50,7 +47,7 @@ export const Footer = () => {
               </li>
               <li className="flex items-center space-x-2 text-sm text-muted-foreground">
                 <Phone className="w-4 h-4" />
-                <span>+1 234 567 890</span>
+                <span>+256772653789</span>
               </li>
               <li className="flex items-center space-x-2 text-sm text-muted-foreground">
                 <MapPin className="w-4 h-4" />
@@ -86,6 +83,5 @@ export const Footer = () => {
           <p>&copy; {new Date().getFullYear()} ReadJoy. All rights reserved.</p>
         </div>
       </div>
-    </footer>
-  );
+    </footer>;
 };
