@@ -1,4 +1,3 @@
-
 import { useState } from "react";
 import { Link } from "react-router-dom";
 import { Search, BookIcon, Menu, Bookmark, BookOpen } from "lucide-react";
@@ -81,19 +80,15 @@ const Ebooks = () => {
               <span className="text-xl font-semibold">ReadJoy</span>
             </Link>
 
-            {/* Desktop Search */}
-            <div className="hidden md:block flex-1 max-w-xl mx-4">
-              <div className="relative">
-                <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-muted-foreground w-5 h-5" />
-                <input
-                  type="text"
-                  placeholder="Search documents..."
-                  className="w-full pl-10 pr-4 py-2 rounded-lg border border-border bg-secondary/50 focus:outline-none focus:ring-2 focus:ring-accent"
-                  value={searchQuery}
-                  onChange={(e) => setSearchQuery(e.target.value)}
-                />
-              </div>
-            </div>
+            {/* Desktop Navigation */}
+            <nav className="hidden md:flex items-center space-x-6">
+              <Link to="/" className="text-foreground hover:text-accent transition-colors">
+                Home
+              </Link>
+              <Link to="/ebooks" className="text-foreground hover:text-accent transition-colors">
+                eBooks
+              </Link>
+            </nav>
 
             {/* Mobile Menu Button */}
             <button className="p-2 text-muted-foreground hover:text-foreground md:hidden">
