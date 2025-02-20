@@ -1,16 +1,16 @@
-
 import { motion } from "framer-motion";
-
 export const HeroSection = () => {
-  return (
-    <section className="relative py-20 px-6">
-      <motion.div 
-        initial={{ opacity: 0, y: 20 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.6 }}
-        className="container max-w-6xl mx-auto text-center"
-      >
-        <span className="inline-block px-4 py-1.5 mb-6 text-sm font-medium rounded-full bg-accent/10 text-accent">
+  return <section className="relative py-20 px-6">
+      <motion.div initial={{
+      opacity: 0,
+      y: 20
+    }} animate={{
+      opacity: 1,
+      y: 0
+    }} transition={{
+      duration: 0.6
+    }} className="container max-w-6xl mx-auto text-center">
+        <span className="inline-block px-4 py-1.5 mb-6 font-medium rounded-full bg-accent/10 text-accent text-5xl text-center">
           Uganda's Premier Digital Reading Platform
         </span>
         <h1 className="text-4xl md:text-6xl mb-6 leading-tight">
@@ -28,6 +28,5 @@ export const HeroSection = () => {
           </a>
         </div>
       </motion.div>
-    </section>
-  );
+    </section>;
 };
