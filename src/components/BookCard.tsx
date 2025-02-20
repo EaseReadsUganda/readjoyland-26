@@ -2,6 +2,7 @@
 import { BookIcon, Bookmark, BookOpen } from "lucide-react";
 import { motion } from "framer-motion";
 import { Book } from "../types/book";
+import { Link } from "react-router-dom";
 
 interface BookCardProps {
   book: Book;
@@ -57,9 +58,11 @@ export const BookCard = ({ book, index, onToggleBookmark }: BookCardProps) => {
             {book.category}
           </span>
         </div>
-        <h3 className="font-medium text-base mb-1 line-clamp-2 group-hover:text-accent transition-colors">
-          {book.title}
-        </h3>
+        <Link to={`/book/${book.id}`}>
+          <h3 className="font-medium text-base mb-1 line-clamp-2 group-hover:text-accent transition-colors">
+            {book.title}
+          </h3>
+        </Link>
         <p className="text-sm text-muted-foreground mb-2">
           {book.author}
         </p>
@@ -67,9 +70,9 @@ export const BookCard = ({ book, index, onToggleBookmark }: BookCardProps) => {
           <span className="text-sm text-muted-foreground">
             {book.pages - Math.floor(book.pages * (book.progress || 0) / 100)} pages left
           </span>
-          <button className="text-accent hover:text-accent/80 transition-colors">
+          <Link to={`/book/${book.id}`} className="text-accent hover:text-accent/80 transition-colors">
             <BookOpen className="w-5 h-5" />
-          </button>
+          </Link>
         </div>
       </div>
     </motion.div>
