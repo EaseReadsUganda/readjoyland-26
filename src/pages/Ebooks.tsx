@@ -1,6 +1,7 @@
 
 import { useState } from "react";
 import { Header } from "../components/layout/Header";
+import { Footer } from "../components/layout/Footer";
 import { SearchBar } from "../components/SearchBar";
 import { BookCard } from "../components/BookCard";
 import { Book } from "../types/book";
@@ -72,7 +73,7 @@ const Ebooks = () => {
   ];
 
   return (
-    <div className="min-h-screen bg-background">
+    <div className="min-h-screen flex flex-col">
       <Header />
       
       {/* Mobile Search */}
@@ -84,7 +85,7 @@ const Ebooks = () => {
       </div>
 
       {/* Main Content */}
-      <main className="container max-w-6xl mx-auto px-4 py-8">
+      <main className="container max-w-6xl mx-auto px-4 py-8 flex-grow">
         {/* Categories */}
         <section className="mb-8">
           <h2 className="text-2xl font-semibold mb-4">Categories</h2>
@@ -124,6 +125,8 @@ const Ebooks = () => {
           </div>
         </section>
       </main>
+
+      <Footer />
     </div>
   );
 };

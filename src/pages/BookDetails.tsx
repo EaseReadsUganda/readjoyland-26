@@ -1,6 +1,6 @@
-
 import { useParams, useNavigate } from "react-router-dom";
 import { Header } from "../components/layout/Header";
+import { Footer } from "../components/layout/Footer";
 import { BookOpen, Star, Share2, Download } from "lucide-react";
 import { Book } from "../types/book";
 import { Button } from "../components/ui/button";
@@ -35,9 +35,9 @@ const BookDetails = () => {
   };
 
   return (
-    <div className="min-h-screen bg-background">
+    <div className="min-h-screen flex flex-col">
       <Header />
-      <main className="container max-w-6xl mx-auto px-4 py-8">
+      <main className="container max-w-6xl mx-auto px-4 py-8 flex-grow">
         <div className="grid md:grid-cols-2 gap-8">
           {/* Book Cover */}
           <div className="aspect-[3/4] bg-white rounded-lg shadow-lg overflow-hidden">
@@ -96,6 +96,7 @@ const BookDetails = () => {
           </div>
         </div>
       </main>
+      <Footer />
     </div>
   );
 };

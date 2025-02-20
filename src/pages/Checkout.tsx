@@ -1,7 +1,7 @@
-
 import { useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { Header } from "../components/layout/Header";
+import { Footer } from "../components/layout/Footer";
 import { Button } from "../components/ui/button";
 import { useToast } from "@/hooks/use-toast";
 
@@ -27,9 +27,9 @@ const Checkout = () => {
   };
 
   return (
-    <div className="min-h-screen bg-background">
+    <div className="min-h-screen flex flex-col">
       <Header />
-      <main className="container max-w-2xl mx-auto px-4 py-8">
+      <main className="container max-w-2xl mx-auto px-4 py-8 flex-grow">
         <h1 className="text-2xl font-bold mb-8">Checkout</h1>
         
         <div className="bg-white rounded-lg shadow-sm p-6 mb-6">
@@ -95,6 +95,7 @@ const Checkout = () => {
           </Button>
         </form>
       </main>
+      <Footer />
     </div>
   );
 };

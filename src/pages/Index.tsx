@@ -2,10 +2,11 @@ import { motion } from "framer-motion";
 import { Book, CreditCard, Clock, Sparkles, MessageSquare, BookOpen, UserCheck, LineChart } from "lucide-react";
 import { Link } from "react-router-dom";
 import { Header } from "../components/layout/Header";
+import { Footer } from "../components/layout/Footer";
 
 const Index = () => {
   return (
-    <div className="min-h-screen">
+    <div className="min-h-screen flex flex-col">
       <Header />
       
       {/* Hero Section */}
@@ -241,6 +242,8 @@ const Index = () => {
           </motion.div>
         </div>
       </section>
+
+      <Footer />
     </div>
   );
 };

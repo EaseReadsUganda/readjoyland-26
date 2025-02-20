@@ -1,6 +1,7 @@
 
 import { useState } from "react";
 import { Header } from "../components/layout/Header";
+import { Footer } from "../components/layout/Footer";
 import { Book } from "../types/book";
 import { BookCard } from "../components/BookCard";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
@@ -29,9 +30,9 @@ const Dashboard = () => {
   };
 
   return (
-    <div className="min-h-screen bg-background">
+    <div className="min-h-screen flex flex-col">
       <Header />
-      <main className="container max-w-6xl mx-auto px-4 py-8">
+      <main className="container max-w-6xl mx-auto px-4 py-8 flex-grow">
         <h1 className="text-2xl font-bold mb-8">My Library</h1>
 
         <Tabs defaultValue="library" className="space-y-6">
@@ -104,6 +105,7 @@ const Dashboard = () => {
           </TabsContent>
         </Tabs>
       </main>
+      <Footer />
     </div>
   );
 };
