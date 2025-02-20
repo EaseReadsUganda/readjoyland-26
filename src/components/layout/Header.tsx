@@ -1,8 +1,11 @@
 
+import { useState } from "react";
 import { Link } from "react-router-dom";
-import { Menu, BookOpen } from "lucide-react";
+import { Menu, X, BookOpen } from "lucide-react";
 
 export const Header = () => {
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+
   return (
     <header className="sticky top-0 z-50 bg-white border-b border-border">
       <div className="container max-w-6xl mx-auto px-4">
@@ -21,10 +24,40 @@ export const Header = () => {
             </Link>
           </nav>
 
-          <button className="p-2 text-muted-foreground hover:text-foreground md:hidden">
-            <Menu className="w-6 h-6" />
+          <button 
+            onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+            className="p-2 text-muted-foreground hover:text-foreground md:hidden"
+            aria-label="Toggle mobile menu"
+          >
+            {isMobileMenuOpen ? (
+              <X className="w-6 h-6" />
+            ) : (
+              <Menu className="w-6 h-6" />
+            )}
           </button>
         </div>
+
+        {/* Mobile Menu */}
+        {isMobileMenuOpen && (
+          <div className="md:hidden py-4 border-t border-border">
+            <nav className="flex flex-col space-y-4">
+              <Link 
+                to="/" 
+                className="text-foreground hover:text-accent transition-colors px-2"
+                onClick={() => setIsMobileMenuOpen(false)}
+              >
+                Home
+              </Link>
+              <Link 
+                to="/ebooks" 
+                className="text-foreground hover:text-accent transition-colors px-2"
+                onClick={() => setIsMobileMenuOpen(false)}
+              >
+                eBooks
+              </Link>
+            </nav>
+          </div>
+        )}
       </div>
     </header>
   );
