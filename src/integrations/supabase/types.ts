@@ -9,7 +9,219 @@ export type Json =
 export type Database = {
   public: {
     Tables: {
-      [_ in never]: never
+      bookmarks: {
+        Row: {
+          book_id: string | null
+          created_at: string | null
+          id: string
+          user_id: string | null
+        }
+        Insert: {
+          book_id?: string | null
+          created_at?: string | null
+          id?: string
+          user_id?: string | null
+        }
+        Update: {
+          book_id?: string | null
+          created_at?: string | null
+          id?: string
+          user_id?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "bookmarks_book_id_fkey"
+            columns: ["book_id"]
+            isOneToOne: false
+            referencedRelation: "books"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "bookmarks_user_id_fkey"
+            columns: ["user_id"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      books: {
+        Row: {
+          author: string
+          category: string | null
+          cover_url: string | null
+          created_at: string | null
+          description: string | null
+          id: string
+          pages: number | null
+          price: number
+          title: string
+          type: string | null
+          updated_at: string | null
+        }
+        Insert: {
+          author: string
+          category?: string | null
+          cover_url?: string | null
+          created_at?: string | null
+          description?: string | null
+          id?: string
+          pages?: number | null
+          price?: number
+          title: string
+          type?: string | null
+          updated_at?: string | null
+        }
+        Update: {
+          author?: string
+          category?: string | null
+          cover_url?: string | null
+          created_at?: string | null
+          description?: string | null
+          id?: string
+          pages?: number | null
+          price?: number
+          title?: string
+          type?: string | null
+          updated_at?: string | null
+        }
+        Relationships: []
+      }
+      profiles: {
+        Row: {
+          avatar_url: string | null
+          created_at: string | null
+          email: string | null
+          full_name: string | null
+          id: string
+          subscription_end_date: string | null
+          subscription_status: string | null
+          updated_at: string | null
+        }
+        Insert: {
+          avatar_url?: string | null
+          created_at?: string | null
+          email?: string | null
+          full_name?: string | null
+          id: string
+          subscription_end_date?: string | null
+          subscription_status?: string | null
+          updated_at?: string | null
+        }
+        Update: {
+          avatar_url?: string | null
+          created_at?: string | null
+          email?: string | null
+          full_name?: string | null
+          id?: string
+          subscription_end_date?: string | null
+          subscription_status?: string | null
+          updated_at?: string | null
+        }
+        Relationships: []
+      }
+      reading_progress: {
+        Row: {
+          book_id: string | null
+          current_page: number | null
+          id: string
+          last_read_at: string | null
+          user_id: string | null
+        }
+        Insert: {
+          book_id?: string | null
+          current_page?: number | null
+          id?: string
+          last_read_at?: string | null
+          user_id?: string | null
+        }
+        Update: {
+          book_id?: string | null
+          current_page?: number | null
+          id?: string
+          last_read_at?: string | null
+          user_id?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "reading_progress_book_id_fkey"
+            columns: ["book_id"]
+            isOneToOne: false
+            referencedRelation: "books"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "reading_progress_user_id_fkey"
+            columns: ["user_id"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      user_purchases: {
+        Row: {
+          amount_paid: number
+          book_id: string | null
+          id: string
+          payment_status: string | null
+          purchase_date: string | null
+          user_id: string | null
+        }
+        Insert: {
+          amount_paid: number
+          book_id?: string | null
+          id?: string
+          payment_status?: string | null
+          purchase_date?: string | null
+          user_id?: string | null
+        }
+        Update: {
+          amount_paid?: number
+          book_id?: string | null
+          id?: string
+          payment_status?: string | null
+          purchase_date?: string | null
+          user_id?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "user_purchases_book_id_fkey"
+            columns: ["book_id"]
+            isOneToOne: false
+            referencedRelation: "books"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "user_purchases_user_id_fkey"
+            columns: ["user_id"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      user_roles: {
+        Row: {
+          created_at: string | null
+          id: string
+          role: string | null
+          user_id: string | null
+        }
+        Insert: {
+          created_at?: string | null
+          id?: string
+          role?: string | null
+          user_id?: string | null
+        }
+        Update: {
+          created_at?: string | null
+          id?: string
+          role?: string | null
+          user_id?: string | null
+        }
+        Relationships: []
+      }
     }
     Views: {
       [_ in never]: never
