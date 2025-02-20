@@ -1,57 +1,54 @@
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Header } from "../components/layout/Header";
 import { Footer } from "../components/layout/Footer";
 import { SearchBar } from "../components/SearchBar";
 import { BookCard } from "../components/BookCard";
 import { Book } from "../types/book";
+import { supabase } from "@/integrations/supabase/client";
 
 const Ebooks = () => {
   const [searchQuery, setSearchQuery] = useState("");
-  const [books, setBooks] = useState<Book[]>([
-    {
-      id: "1",
-      title: "The Art of Digital Reading",
-      author: "Added by ReadJoy Team",
-      pages: 257,
-      type: "Document",
-      category: "Professional",
-      progress: 73,
-      isBookmarked: false,
-    },
-    {
-      id: "2",
-      title: "Modern African Literature",
-      author: "Added by Literary Experts",
-      pages: 189,
-      type: "Document",
-      category: "Academic",
-      progress: 85,
-      isBookmarked: true,
-    },
-    {
-      id: "3",
-      title: "Understanding Ugandan History",
-      author: "Added by Historical Society",
-      pages: 342,
-      type: "Document",
-      category: "Culture",
-      progress: 60,
-      isBookmarked: false,
-    },
-    {
-      id: "4",
-      title: "Business Skills for Entrepreneurs",
-      author: "Added by Business Hub",
-      pages: 156,
-      type: "Document",
-      category: "Personal Growth",
-      progress: 90,
-      isBookmarked: false,
-    },
-  ]);
+  const [books, setBooks] = useState<Book[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [categories, setCategories] = useState<string[]>([]);
 
-  const toggleBookmark = (bookId: string) => {
+  useEffect(() => {
+    fetchBooks();
+  }, []);
+
+  const fetchBooks = async () => {
+    try {
+      const { data, error } = await supabase
+        .from('books')
+        .select('*');
+      
+      if (error) throw error;
+      
+      const fetchedBooks = data?.map(book => ({
+        id: book.id,
+        title: book.title,
+        author: book.author,
+        pages: book.pages || 0,
+        type: book.type || 'Document',
+        category: book.category || 'General',
+        progress: 0,
+        isBookmarked: false
+      })) || [];
+
+      setBooks(fetchedBooks);
+      
+      // Extract unique categories
+      const uniqueCategories = Array.from(new Set(fetchedBooks.map(book => book.category)));
+      setCategories(uniqueCategories);
+    } catch (error) {
+      console.error('Error fetching books:', error);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const toggleBookmark = async (bookId: string) => {
     setBooks(books.map(book => 
       book.id === bookId 
         ? { ...book, isBookmarked: !book.isBookmarked }
@@ -63,14 +60,6 @@ const Ebooks = () => {
     book.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
     book.author.toLowerCase().includes(searchQuery.toLowerCase())
   );
-
-  const categories: Book["category"][] = [
-    "Academic",
-    "Professional",
-    "Culture",
-    "Hobbies & Crafts",
-    "Personal Growth"
-  ];
 
   return (
     <div className="min-h-screen flex flex-col">
@@ -108,21 +97,28 @@ const Ebooks = () => {
         <section className="mb-12">
           <div className="flex items-center justify-between mb-6">
             <h2 className="text-2xl font-semibold">For You</h2>
-            <button className="text-accent hover:text-accent/80 text-sm font-medium">
-              View More
-            </button>
           </div>
           
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
-            {filteredBooks.map((book, index) => (
-              <BookCard
-                key={book.id}
-                book={book}
-                index={index}
-                onToggleBookmark={toggleBookmark}
-              />
-            ))}
-          </div>
+          {loading ? (
+            <div className="text-center py-12 text-muted-foreground">
+              Loading books...
+            </div>
+          ) : filteredBooks.length > 0 ? (
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+              {filteredBooks.map((book, index) => (
+                <BookCard
+                  key={book.id}
+                  book={book}
+                  index={index}
+                  onToggleBookmark={toggleBookmark}
+                />
+              ))}
+            </div>
+          ) : (
+            <div className="text-center py-12 text-muted-foreground">
+              No books found matching your search.
+            </div>
+          )}
         </section>
       </main>
 

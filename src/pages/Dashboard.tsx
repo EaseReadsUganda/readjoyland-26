@@ -1,32 +1,57 @@
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Header } from "../components/layout/Header";
 import { Footer } from "../components/layout/Footer";
 import { Book } from "../types/book";
 import { BookCard } from "../components/BookCard";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { BookOpen, Heart, Settings } from "lucide-react";
+import { supabase } from "@/integrations/supabase/client";
 
 const Dashboard = () => {
-  const [books, setBooks] = useState<Book[]>([
-    {
-      id: "1",
-      title: "The Art of Digital Reading",
-      author: "Added by ReadJoy Team",
-      pages: 257,
-      type: "Document",
-      category: "Professional",
-      progress: 73,
-      isBookmarked: true,
-    },
-  ]);
+  const [books, setBooks] = useState<Book[]>([]);
+  const [loading, setLoading] = useState(true);
 
-  const toggleBookmark = (bookId: string) => {
-    setBooks(books.map(book => 
-      book.id === bookId 
-        ? { ...book, isBookmarked: !book.isBookmarked }
-        : book
-    ));
+  useEffect(() => {
+    fetchBooks();
+  }, []);
+
+  const fetchBooks = async () => {
+    try {
+      const { data, error } = await supabase
+        .from('books')
+        .select('*');
+      
+      if (error) throw error;
+      
+      setBooks(data?.map(book => ({
+        id: book.id,
+        title: book.title,
+        author: book.author,
+        pages: book.pages || 0,
+        type: book.type || 'Document',
+        category: book.category || 'General',
+        progress: 0, // Will be implemented with reading_progress table
+        isBookmarked: false // Will be implemented with bookmarks table
+      })) || []);
+    } catch (error) {
+      console.error('Error fetching books:', error);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const toggleBookmark = async (bookId: string) => {
+    try {
+      // Implementation will be added when we set up the bookmarks table
+      setBooks(books.map(book => 
+        book.id === bookId 
+          ? { ...book, isBookmarked: !book.isBookmarked }
+          : book
+      ));
+    } catch (error) {
+      console.error('Error toggling bookmark:', error);
+    }
   };
 
   return (
@@ -52,16 +77,26 @@ const Dashboard = () => {
           </TabsList>
 
           <TabsContent value="library" className="space-y-6">
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
-              {books.map((book, index) => (
-                <BookCard
-                  key={book.id}
-                  book={book}
-                  index={index}
-                  onToggleBookmark={toggleBookmark}
-                />
-              ))}
-            </div>
+            {loading ? (
+              <div className="text-center py-12 text-muted-foreground">
+                Loading your library...
+              </div>
+            ) : books.length > 0 ? (
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+                {books.map((book, index) => (
+                  <BookCard
+                    key={book.id}
+                    book={book}
+                    index={index}
+                    onToggleBookmark={toggleBookmark}
+                  />
+                ))}
+              </div>
+            ) : (
+              <div className="text-center py-12 text-muted-foreground">
+                No books in your library yet.
+              </div>
+            )}
           </TabsContent>
 
           <TabsContent value="wishlist">
