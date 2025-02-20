@@ -1,10 +1,38 @@
-
 import { motion } from "framer-motion";
-import { Book, CreditCard, Clock, Sparkles, MessageSquare } from "lucide-react";
+import { Book, CreditCard, Clock, Sparkles, MessageSquare, Menu, BookOpen } from "lucide-react";
+import { Link } from "react-router-dom";
 
 const Index = () => {
   return (
     <div className="min-h-screen">
+      {/* Navigation Header */}
+      <header className="sticky top-0 z-50 bg-white border-b border-border">
+        <div className="container max-w-6xl mx-auto px-4">
+          <div className="flex items-center justify-between h-16">
+            {/* Logo and Brand */}
+            <Link to="/" className="flex items-center space-x-2">
+              <BookOpen className="w-8 h-8 text-accent" />
+              <span className="text-xl font-semibold">ReadJoy</span>
+            </Link>
+
+            {/* Desktop Navigation */}
+            <nav className="hidden md:flex items-center space-x-6">
+              <Link to="/" className="text-foreground hover:text-accent transition-colors">
+                Home
+              </Link>
+              <Link to="/ebooks" className="text-foreground hover:text-accent transition-colors">
+                eBooks
+              </Link>
+            </nav>
+
+            {/* Mobile Menu Button */}
+            <button className="p-2 text-muted-foreground hover:text-foreground md:hidden">
+              <Menu className="w-6 h-6" />
+            </button>
+          </div>
+        </div>
+      </header>
+
       {/* Hero Section */}
       <section className="relative py-20 px-6">
         <motion.div 
