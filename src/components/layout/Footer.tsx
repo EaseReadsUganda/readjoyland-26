@@ -1,6 +1,5 @@
 import { Link } from "react-router-dom";
 import { BookOpen, Mail, MapPin, Phone } from "lucide-react";
-
 export const Footer = () => {
   return <footer className="bg-white border-t border-border mt-auto">
       <div className="container max-w-6xl mx-auto px-4 py-8">
@@ -52,7 +51,7 @@ export const Footer = () => {
               </li>
               <li className="flex items-center space-x-2 text-sm text-muted-foreground">
                 <MapPin className="w-4 h-4" />
-                <span>123 Book Street, Reading City</span>
+                <span>Kampala, Uganda</span>
               </li>
             </ul>
           </div>
