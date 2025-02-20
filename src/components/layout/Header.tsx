@@ -22,6 +22,9 @@ export const Header = () => {
             <Link to="/ebooks" className="text-foreground hover:text-accent transition-colors">
               Explore
             </Link>
+            <Link to="/dashboard" className="text-foreground hover:text-accent transition-colors">
+              Dashboard
+            </Link>
           </nav>
 
           <button 
@@ -54,6 +57,13 @@ export const Header = () => {
                 onClick={() => setIsMobileMenuOpen(false)}
               >
                 Explore
+              </Link>
+              <Link 
+                to="/dashboard" 
+                className="text-foreground hover:text-accent transition-colors px-2"
+                onClick={() => setIsMobileMenuOpen(false)}
+              >
+                Dashboard
               </Link>
             </nav>
           </div>
