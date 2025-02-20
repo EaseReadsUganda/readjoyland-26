@@ -1,21 +1,59 @@
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { Menu, X, BookOpen } from "lucide-react";
+import { Menu, X, BookOpen, UserCircle } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useToast } from "@/hooks/use-toast";
+import { supabase } from "@/integrations/supabase/client";
 
 export const Header = () => {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const [session, setSession] = useState<any>(null);
   const navigate = useNavigate();
   const { toast } = useToast();
 
-  const handleProtectedAction = (path: string) => {
-    toast({
-      title: "Authentication Required",
-      description: "Please create an account or log in to access this feature.",
-      variant: "destructive",
+  useEffect(() => {
+    supabase.auth.getSession().then(({ data: { session } }) => {
+      setSession(session);
     });
+
+    const {
+      data: { subscription },
+    } = supabase.auth.onAuthStateChange((_event, session) => {
+      setSession(session);
+    });
+
+    return () => subscription.unsubscribe();
+  }, []);
+
+  const handleSignOut = async () => {
+    const { error } = await supabase.auth.signOut();
+    if (error) {
+      toast({
+        title: "Error signing out",
+        description: error.message,
+        variant: "destructive",
+      });
+    } else {
+      toast({
+        title: "Signed out",
+        description: "You have been successfully signed out.",
+      });
+      navigate("/");
+    }
+  };
+
+  const handleProtectedAction = (path: string) => {
+    if (!session) {
+      toast({
+        title: "Authentication Required",
+        description: "Please create an account or log in to access this feature.",
+        variant: "destructive",
+      });
+      navigate("/auth");
+    } else {
+      navigate(path);
+    }
   };
 
   return (
@@ -37,14 +75,25 @@ export const Header = () => {
             >
               Explore
             </button>
-            <button 
-              onClick={() => handleProtectedAction("/dashboard")} 
-              className="text-foreground hover:text-accent transition-colors"
-            >
-              Dashboard
-            </button>
-            <Button variant="outline" className="mr-2">Log In</Button>
-            <Button>Sign Up</Button>
+            {session && (
+              <button 
+                onClick={() => handleProtectedAction("/dashboard")} 
+                className="text-foreground hover:text-accent transition-colors"
+              >
+                Dashboard
+              </button>
+            )}
+            {session ? (
+              <div className="flex items-center space-x-4">
+                <UserCircle className="w-6 h-6" />
+                <Button onClick={handleSignOut} variant="outline">Sign Out</Button>
+              </div>
+            ) : (
+              <div className="flex items-center space-x-4">
+                <Button variant="outline" onClick={() => navigate("/auth")}>Log In</Button>
+                <Button onClick={() => navigate("/auth")}>Sign Up</Button>
+              </div>
+            )}
           </nav>
 
           <button 
@@ -80,18 +129,43 @@ export const Header = () => {
               >
                 Explore
               </button>
-              <button 
-                onClick={() => {
-                  handleProtectedAction("/dashboard");
-                  setIsMobileMenuOpen(false);
-                }} 
-                className="text-foreground hover:text-accent transition-colors px-2 text-left"
-              >
-                Dashboard
-              </button>
+              {session && (
+                <button 
+                  onClick={() => {
+                    handleProtectedAction("/dashboard");
+                    setIsMobileMenuOpen(false);
+                  }} 
+                  className="text-foreground hover:text-accent transition-colors px-2 text-left"
+                >
+                  Dashboard
+                </button>
+              )}
               <div className="pt-4 border-t border-border space-y-2">
-                <Button variant="outline" className="w-full">Log In</Button>
-                <Button className="w-full">Sign Up</Button>
+                {session ? (
+                  <Button onClick={handleSignOut} className="w-full">Sign Out</Button>
+                ) : (
+                  <>
+                    <Button 
+                      variant="outline" 
+                      className="w-full" 
+                      onClick={() => {
+                        navigate("/auth");
+                        setIsMobileMenuOpen(false);
+                      }}
+                    >
+                      Log In
+                    </Button>
+                    <Button 
+                      className="w-full"
+                      onClick={() => {
+                        navigate("/auth");
+                        setIsMobileMenuOpen(false);
+                      }}
+                    >
+                      Sign Up
+                    </Button>
+                  </>
+                )}
               </div>
             </nav>
           </div>
