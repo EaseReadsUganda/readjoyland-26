@@ -1,25 +1,41 @@
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
 import { Label } from "@/components/ui/label";
 import { Edit2, Plus, Search, Trash2, Upload } from "lucide-react";
-
-const books = [
-  { id: 1, title: "The Art of Digital Reading", author: "ReadJoy Team", category: "Professional", downloads: 156, status: "active" },
-  { id: 2, title: "Modern Web Development", author: "Tech Authors", category: "Academic", downloads: 89, status: "active" },
-  { id: 3, title: "Digital Marketing Basics", author: "Marketing Pros", category: "Professional", downloads: 234, status: "inactive" },
-];
+import { supabase } from "@/integrations/supabase/client";
 
 export const AdminBooks = () => {
+  const [books, setBooks] = useState([]);
+  const [loading, setLoading] = useState(true);
   const [searchTerm, setSearchTerm] = useState("");
 
+  useEffect(() => {
+    fetchBooks();
+  }, []);
+
+  const fetchBooks = async () => {
+    try {
+      const { data, error } = await supabase
+        .from('books')
+        .select('*');
+      
+      if (error) throw error;
+      setBooks(data || []);
+    } catch (error) {
+      console.error('Error fetching books:', error);
+    } finally {
+      setLoading(false);
+    }
+  };
+
   const filteredBooks = books.filter(book => 
-    book.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
-    book.author.toLowerCase().includes(searchTerm.toLowerCase()) ||
-    book.category.toLowerCase().includes(searchTerm.toLowerCase())
+    book.title?.toLowerCase().includes(searchTerm.toLowerCase()) ||
+    book.author?.toLowerCase().includes(searchTerm.toLowerCase()) ||
+    book.category?.toLowerCase().includes(searchTerm.toLowerCase())
   );
 
   return (
@@ -76,43 +92,55 @@ export const AdminBooks = () => {
       </div>
 
       <div className="rounded-md border">
-        <Table>
-          <TableHeader>
-            <TableRow>
-              <TableHead>Title</TableHead>
-              <TableHead>Author</TableHead>
-              <TableHead>Category</TableHead>
-              <TableHead>Downloads</TableHead>
-              <TableHead>Status</TableHead>
-              <TableHead className="text-right">Actions</TableHead>
-            </TableRow>
-          </TableHeader>
-          <TableBody>
-            {filteredBooks.map((book) => (
-              <TableRow key={book.id}>
-                <TableCell className="font-medium">{book.title}</TableCell>
-                <TableCell>{book.author}</TableCell>
-                <TableCell>{book.category}</TableCell>
-                <TableCell>{book.downloads}</TableCell>
-                <TableCell>
-                  <span className={`inline-flex items-center rounded-full px-2 py-1 text-xs font-medium ${
-                    book.status === 'active' ? 'bg-green-100 text-green-700' : 'bg-yellow-100 text-yellow-700'
-                  }`}>
-                    {book.status}
-                  </span>
-                </TableCell>
-                <TableCell className="text-right space-x-2">
-                  <Button variant="ghost" size="sm">
-                    <Edit2 className="w-4 h-4" />
-                  </Button>
-                  <Button variant="ghost" size="sm">
-                    <Trash2 className="w-4 h-4" />
-                  </Button>
-                </TableCell>
+        {loading ? (
+          <div className="p-8 text-center text-muted-foreground">Loading books...</div>
+        ) : (
+          <Table>
+            <TableHeader>
+              <TableRow>
+                <TableHead>Title</TableHead>
+                <TableHead>Author</TableHead>
+                <TableHead>Category</TableHead>
+                <TableHead>Downloads</TableHead>
+                <TableHead>Status</TableHead>
+                <TableHead className="text-right">Actions</TableHead>
               </TableRow>
-            ))}
-          </TableBody>
-        </Table>
+            </TableHeader>
+            <TableBody>
+              {filteredBooks.length === 0 ? (
+                <TableRow>
+                  <TableCell colSpan={6} className="text-center text-muted-foreground">
+                    {searchTerm ? "No books found matching your search" : "No books available"}
+                  </TableCell>
+                </TableRow>
+              ) : (
+                filteredBooks.map((book) => (
+                  <TableRow key={book.id}>
+                    <TableCell className="font-medium">{book.title}</TableCell>
+                    <TableCell>{book.author}</TableCell>
+                    <TableCell>{book.category}</TableCell>
+                    <TableCell>{book.downloads || 0}</TableCell>
+                    <TableCell>
+                      <span className={`inline-flex items-center rounded-full px-2 py-1 text-xs font-medium ${
+                        book.status === 'active' ? 'bg-green-100 text-green-700' : 'bg-yellow-100 text-yellow-700'
+                      }`}>
+                        {book.status || 'inactive'}
+                      </span>
+                    </TableCell>
+                    <TableCell className="text-right space-x-2">
+                      <Button variant="ghost" size="sm">
+                        <Edit2 className="w-4 h-4" />
+                      </Button>
+                      <Button variant="ghost" size="sm">
+                        <Trash2 className="w-4 h-4" />
+                      </Button>
+                    </TableCell>
+                  </TableRow>
+                ))
+              )}
+            </TableBody>
+          </Table>
+        )}
       </div>
     </div>
   );
