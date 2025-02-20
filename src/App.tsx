@@ -10,6 +10,7 @@ import BookDetails from "./pages/BookDetails";
 import Checkout from "./pages/Checkout";
 import Confirmation from "./pages/Confirmation";
 import Dashboard from "./pages/Dashboard";
+import AdminDashboard from "./pages/AdminDashboard";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -27,6 +28,7 @@ const App = () => (
           <Route path="/checkout/:id" element={<Checkout />} />
           <Route path="/confirmation/:id" element={<Confirmation />} />
           <Route path="/dashboard" element={<Dashboard />} />
+          <Route path="/admin" element={<AdminDashboard />} />
           <Route path="*" element={<NotFound />} />
         </Routes>
       </BrowserRouter>
