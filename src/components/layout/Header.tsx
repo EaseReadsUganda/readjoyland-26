@@ -1,10 +1,22 @@
 
 import { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { Menu, X, BookOpen } from "lucide-react";
+import { Button } from "@/components/ui/button";
+import { useToast } from "@/hooks/use-toast";
 
 export const Header = () => {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const navigate = useNavigate();
+  const { toast } = useToast();
+
+  const handleProtectedAction = (path: string) => {
+    toast({
+      title: "Authentication Required",
+      description: "Please create an account or log in to access this feature.",
+      variant: "destructive",
+    });
+  };
 
   return (
     <header className="sticky top-0 z-50 bg-white border-b border-border">
@@ -19,12 +31,20 @@ export const Header = () => {
             <Link to="/" className="text-foreground hover:text-accent transition-colors">
               Home
             </Link>
-            <Link to="/ebooks" className="text-foreground hover:text-accent transition-colors">
+            <button 
+              onClick={() => handleProtectedAction("/ebooks")} 
+              className="text-foreground hover:text-accent transition-colors"
+            >
               Explore
-            </Link>
-            <Link to="/dashboard" className="text-foreground hover:text-accent transition-colors">
+            </button>
+            <button 
+              onClick={() => handleProtectedAction("/dashboard")} 
+              className="text-foreground hover:text-accent transition-colors"
+            >
               Dashboard
-            </Link>
+            </button>
+            <Button variant="outline" className="mr-2">Log In</Button>
+            <Button>Sign Up</Button>
           </nav>
 
           <button 
@@ -51,20 +71,28 @@ export const Header = () => {
               >
                 Home
               </Link>
-              <Link 
-                to="/ebooks" 
-                className="text-foreground hover:text-accent transition-colors px-2"
-                onClick={() => setIsMobileMenuOpen(false)}
+              <button 
+                onClick={() => {
+                  handleProtectedAction("/ebooks");
+                  setIsMobileMenuOpen(false);
+                }} 
+                className="text-foreground hover:text-accent transition-colors px-2 text-left"
               >
                 Explore
-              </Link>
-              <Link 
-                to="/dashboard" 
-                className="text-foreground hover:text-accent transition-colors px-2"
-                onClick={() => setIsMobileMenuOpen(false)}
+              </button>
+              <button 
+                onClick={() => {
+                  handleProtectedAction("/dashboard");
+                  setIsMobileMenuOpen(false);
+                }} 
+                className="text-foreground hover:text-accent transition-colors px-2 text-left"
               >
                 Dashboard
-              </Link>
+              </button>
+              <div className="pt-4 border-t border-border space-y-2">
+                <Button variant="outline" className="w-full">Log In</Button>
+                <Button className="w-full">Sign Up</Button>
+              </div>
             </nav>
           </div>
         )}

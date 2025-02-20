@@ -1,7 +1,18 @@
 
 import { motion } from "framer-motion";
+import { useToast } from "@/hooks/use-toast";
+import { Button } from "@/components/ui/button";
 
 export const CTASection = () => {
+  const { toast } = useToast();
+
+  const handleSignUp = () => {
+    toast({
+      title: "Coming Soon",
+      description: "Account creation will be available shortly!",
+    });
+  };
+
   return (
     <section className="py-20 px-6 bg-primary text-primary-foreground">
       <div className="container max-w-6xl mx-auto text-center">
@@ -11,11 +22,16 @@ export const CTASection = () => {
           viewport={{ once: true }}
           transition={{ duration: 0.5 }}
         >
-          <h2 className="text-3xl md:text-4xl mb-6">Ready to Start Reading?</h2>
-          <p className="text-lg mb-8 opacity-90">Join thousands of readers enjoying unlimited access to premium books</p>
-          <button className="button bg-accent text-accent-foreground hover:opacity-90">
-            Create Your Account Now
-          </button>
+          <h2 className="text-3xl md:text-4xl mb-6">Start Your Reading Journey Today</h2>
+          <p className="text-lg mb-8 opacity-90">Create your free account now and get instant access to thousands of premium books</p>
+          <div className="flex flex-col sm:flex-row gap-4 justify-center">
+            <Button size="lg" variant="secondary" onClick={handleSignUp}>
+              Create Free Account
+            </Button>
+            <Button size="lg" variant="outline" onClick={handleSignUp}>
+              Learn More
+            </Button>
+          </div>
         </motion.div>
       </div>
     </section>
