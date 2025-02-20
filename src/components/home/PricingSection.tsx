@@ -1,10 +1,7 @@
-
 import { motion } from "framer-motion";
 import { Book, CreditCard, Clock, Sparkles, MessageSquare } from "lucide-react";
-
 export const PricingSection = () => {
-  return (
-    <section id="pricing" className="py-20 px-6 bg-secondary">
+  return <section id="pricing" className="py-20 px-6 bg-secondary">
       <div className="container max-w-6xl mx-auto">
         <div className="text-center mb-16">
           <h2 className="text-3xl md:text-4xl mb-4">Choose Your Reading Journey</h2>
@@ -13,13 +10,17 @@ export const PricingSection = () => {
         
         <div className="grid md:grid-cols-2 gap-8 max-w-4xl mx-auto">
           {/* Monthly Subscription Card */}
-          <motion.div 
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.5 }}
-            className="glass card"
-          >
+          <motion.div initial={{
+          opacity: 0,
+          y: 20
+        }} whileInView={{
+          opacity: 1,
+          y: 0
+        }} viewport={{
+          once: true
+        }} transition={{
+          duration: 0.5
+        }} className="glass card">
             <div className="flex items-center justify-between mb-6">
               <h3 className="text-2xl">Monthly Subscription</h3>
               <span className="text-accent">
@@ -44,17 +45,22 @@ export const PricingSection = () => {
                 <span>Personalized Recommendations</span>
               </li>
             </ul>
-            <button className="button-primary w-full">Subscribe Now</button>
+            <button className="button-primary w-full bg-black">Subscribe Now</button>
           </motion.div>
 
           {/* Pay-Per-Book Card */}
-          <motion.div 
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.5, delay: 0.2 }}
-            className="glass card"
-          >
+          <motion.div initial={{
+          opacity: 0,
+          y: 20
+        }} whileInView={{
+          opacity: 1,
+          y: 0
+        }} viewport={{
+          once: true
+        }} transition={{
+          duration: 0.5,
+          delay: 0.2
+        }} className="glass card">
             <div className="flex items-center justify-between mb-6">
               <h3 className="text-2xl">Pay-Per-Book</h3>
               <span className="text-accent">
@@ -79,10 +85,9 @@ export const PricingSection = () => {
                 <span>Yours forever</span>
               </li>
             </ul>
-            <button className="button-secondary w-full">Browse Books</button>
+            <button className="button-secondary w-full text-slate-50 bg-black rounded-sm">Browse Books</button>
           </motion.div>
         </div>
       </div>
-    </section>
-  );
+    </section>;
 };
