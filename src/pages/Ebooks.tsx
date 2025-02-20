@@ -14,6 +14,7 @@ const Ebooks = () => {
       author: "Added by ReadJoy Team",
       pages: 257,
       type: "Document",
+      category: "Professional",
       progress: 73,
       isBookmarked: false,
     },
@@ -23,6 +24,7 @@ const Ebooks = () => {
       author: "Added by Literary Experts",
       pages: 189,
       type: "Document",
+      category: "Academic",
       progress: 85,
       isBookmarked: true,
     },
@@ -32,6 +34,7 @@ const Ebooks = () => {
       author: "Added by Historical Society",
       pages: 342,
       type: "Document",
+      category: "Culture",
       progress: 60,
       isBookmarked: false,
     },
@@ -41,6 +44,7 @@ const Ebooks = () => {
       author: "Added by Business Hub",
       pages: 156,
       type: "Document",
+      category: "Personal Growth",
       progress: 90,
       isBookmarked: false,
     },
@@ -59,6 +63,14 @@ const Ebooks = () => {
     book.author.toLowerCase().includes(searchQuery.toLowerCase())
   );
 
+  const categories: Book["category"][] = [
+    "Academic",
+    "Professional",
+    "Culture",
+    "Hobbies & Crafts",
+    "Personal Growth"
+  ];
+
   return (
     <div className="min-h-screen bg-background">
       <Header />
@@ -73,6 +85,25 @@ const Ebooks = () => {
 
       {/* Main Content */}
       <main className="container max-w-6xl mx-auto px-4 py-8">
+        {/* Categories */}
+        <section className="mb-8">
+          <h2 className="text-2xl font-semibold mb-4">Categories</h2>
+          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4">
+            {categories.map((category) => (
+              <button
+                key={category}
+                className="p-4 bg-white rounded-lg shadow-sm hover:shadow-md transition-all text-left"
+              >
+                <span className="text-sm font-medium">{category}</span>
+                <span className="block text-xs text-muted-foreground mt-1">
+                  {books.filter(book => book.category === category).length} books
+                </span>
+              </button>
+            ))}
+          </div>
+        </section>
+
+        {/* Books Section */}
         <section className="mb-12">
           <div className="flex items-center justify-between mb-6">
             <h2 className="text-2xl font-semibold">For You</h2>

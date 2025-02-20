@@ -49,9 +49,14 @@ export const BookCard = ({ book, index, onToggleBookmark }: BookCardProps) => {
         )}
       </div>
       <div className="p-4">
-        <span className="text-xs text-muted-foreground mb-1 block">
-          {book.type}
-        </span>
+        <div className="flex items-center justify-between mb-1">
+          <span className="text-xs text-muted-foreground">
+            {book.type}
+          </span>
+          <span className="text-xs font-medium text-accent">
+            {book.category}
+          </span>
+        </div>
         <h3 className="font-medium text-base mb-1 line-clamp-2 group-hover:text-accent transition-colors">
           {book.title}
         </h3>
