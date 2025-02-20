@@ -24,7 +24,7 @@ export const Header = () => {
         <div className="flex items-center justify-between h-16">
           <Link to="/" className="flex items-center space-x-2">
             <BookOpen className="w-8 h-8 text-accent" />
-            <span className="text-xl font-semibold">ReadJoy</span>
+            <span className="text-xl font-semibold">EaseReads</span>
           </Link>
 
           <nav className="hidden md:flex items-center space-x-6">

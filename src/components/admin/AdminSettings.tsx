@@ -15,11 +15,11 @@ export const AdminSettings = () => {
         <CardContent className="space-y-4">
           <div className="space-y-2">
             <Label htmlFor="platformName">Platform Name</Label>
-            <Input id="platformName" defaultValue="ReadJoy" />
+            <Input id="platformName" defaultValue="EaseReads" />
           </div>
           <div className="space-y-2">
             <Label htmlFor="supportEmail">Support Email</Label>
-            <Input id="supportEmail" type="email" defaultValue="support@readjoy.com" />
+            <Input id="supportEmail" type="email" defaultValue="support@easereads.com" />
           </div>
           <Button>Save Changes</Button>
         </CardContent>
